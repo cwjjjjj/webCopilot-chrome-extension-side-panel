@@ -1,8 +1,9 @@
 import { HTMLAttributes } from "react";
 import { WeiboPost as WeiboPostType } from "../types";
 import { css } from "@emotion/react";
+import { Toast } from "antd-mobile";
 
-export interface WeiboPostProps extends HTMLAttributes<HTMLDivElement> {
+export interface WeiboPostProps extends HTMLAttributes<HTMLAnchorElement> {
   data: WeiboPostType;
 }
 
@@ -27,9 +28,10 @@ export default function WeiboPost({ data, ...props }: WeiboPostProps) {
     subject_label,
     small_icon_desc,
     small_icon_desc_color,
+    word_scheme,
   } = data ?? {};
   return (
-    <div
+    <a
       {...props}
       css={css`
         display: grid;
@@ -50,6 +52,10 @@ export default function WeiboPost({ data, ...props }: WeiboPostProps) {
           color: #ff8200;
         }
       `}
+      href={`https://s.weibo.com/weibo?q=${encodeURIComponent(
+        word_scheme ?? word
+      )}`}
+      target="_blank noreferrer"
     >
       <span
         css={css`
@@ -72,6 +78,6 @@ export default function WeiboPost({ data, ...props }: WeiboPostProps) {
           {small_icon_desc}
         </div>
       )}
-    </div>
+    </a>
   );
 }
