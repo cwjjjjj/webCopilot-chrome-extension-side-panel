@@ -86,20 +86,30 @@ export default function Memorandum({ ...props }: MemorandumProps) {
       {...props}
       css={css`
         height: 100%;
+        display: grid;
+        grid-template-rows: 1fr 30px;
+        gap: 10px;
       `}
     >
-      <h4>备忘录</h4>
-      <CheckList
-        multiple
-        value={memorandumListValue}
-        onChange={handleChangeState}
+      <section
+        css={css`
+          overflow-y: auto;
+          height: 100%;
+        `}
       >
-        {memorandumList.map((item) => (
-          <CheckList.Item value={item.id} key={item.id}>
-            <MemorandumItem data={item} onDelete={handleDelete} />
-          </CheckList.Item>
-        ))}
-      </CheckList>
+        <h4>备忘录</h4>
+        <CheckList
+          multiple
+          value={memorandumListValue}
+          onChange={handleChangeState}
+        >
+          {memorandumList.map((item) => (
+            <CheckList.Item value={item.id} key={item.id}>
+              <MemorandumItem data={item} onDelete={handleDelete} />
+            </CheckList.Item>
+          ))}
+        </CheckList>
+      </section>
 
       <section>
         <Input

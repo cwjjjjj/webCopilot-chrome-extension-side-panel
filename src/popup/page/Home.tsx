@@ -63,7 +63,16 @@ export default function Home() {
   }, [isFirstRef?.current]);
 
   return (
-    <div className="p-[10px] overflow-auto">
+    <div
+      className="p-[10px] overflow-auto"
+      css={css`
+        .module {
+          background-color: rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
+          overflow: hidden;
+        }
+      `}
+    >
       <GridLayout
         className="layout"
         layout={layout}
@@ -71,22 +80,22 @@ export default function Home() {
         rowHeight={30}
         width={1200}
       >
-        <div key="a" className=" bg-[red]">
+        <div key="a" className=" module">
           <Search currentSearchEngine={currentSearchEngine} />
         </div>
-        <div key="b" className=" bg-[orange]">
+        <div key="b" className=" module">
           <Memorandum />
         </div>
-        <div key="c" className=" bg-[green]">
+        <div key="c" className=" module">
           <V2exHotList />
         </div>
-        <div key="d" className=" bg-[pink]">
+        <div key="d" className=" module">
           <WeiboList />
         </div>
-        <div key="e" className=" bg-[#35dac1]">
+        <div key="e" className=" module">
           <PinnedIcons />
         </div>
-        {/* <div key="f" className=" bg-[#a0b3d7] h-full w-full overflow-auto">
+        {/* <div key="f" className="  h-full w-full overflow-auto">
           <input
             type="text"
             value={customUrl}

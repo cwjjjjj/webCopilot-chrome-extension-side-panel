@@ -24,8 +24,9 @@ export default function MemorandumItem({
       {...props}
       css={css`
         display: grid;
-        grid-template-columns: 1fr 20px;
+        grid-template-columns: 20px 1fr;
         align-items: center;
+        gap: 10px;
 
         .task-done {
           text-decoration: line-through;
@@ -35,23 +36,25 @@ export default function MemorandumItem({
           position: relative;
           height: 20px;
           width: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
           &:hover::after {
             content: "删除";
             position: absolute;
-            left: -10px;
+            left: 20px;
             top: 50%;
             white-space: nowrap;
-            transform: translate(-100%, -50%);
+            transform: translate(0, -50%);
             color: rgba(255, 255, 255, 0.8);
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.7);
             border-radius: 4px;
             padding: 2px 4px;
           }
         }
       `}
     >
-      <h5 className={state === "done" ? "task-done" : ""}>{task}</h5>
       <div className="popover-icon">
         <CloseCircleOutline
           color="red"
@@ -61,6 +64,7 @@ export default function MemorandumItem({
           }}
         />
       </div>
+      <h5 className={state === "done" ? "task-done" : ""}>{task}</h5>
     </div>
   );
 }
