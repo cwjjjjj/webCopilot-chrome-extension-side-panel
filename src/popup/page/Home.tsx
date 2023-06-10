@@ -9,7 +9,11 @@ import PinnedIcons from "../components/PinnedWebs";
 import { useEffect, useRef, useState } from "react";
 import Browser from "webextension-polyfill";
 import { useRecoilState } from "recoil";
-import { memorandumListState, pinnedWebsState } from "../globalState";
+import {
+  currentSearchEngineState,
+  memorandumListState,
+  pinnedWebsState,
+} from "../globalState";
 import { css } from "@emotion/react";
 
 const layout = [
@@ -27,6 +31,9 @@ export default function Home() {
   const [memorandumList, setMemorandumList] =
     useRecoilState(memorandumListState);
   // const [customUrl, setCustomUrl] = useState<string>("");
+  const [currentSearchEngine, setCurrentSearchEngine] = useRecoilState(
+    currentSearchEngineState
+  );
 
   useEffect(() => {
     if (isFirstRef?.current) {
@@ -35,6 +42,9 @@ export default function Home() {
       });
       Browser.storage.sync.get(["memorandumList"]).then((res) => {
         setMemorandumList(res.memorandumList);
+      });
+      Browser.storage.sync.get(["currentSearchEngine"]).then((res) => {
+        setCurrentSearchEngine(res.currentSearchEngine);
       });
       isFirstRef.current = false;
     } else {
@@ -45,9 +55,13 @@ export default function Home() {
         if (res?.memorandumList) {
           setMemorandumList(res?.memorandumList?.newValue);
         }
+        if (res?.currentSearchEngine) {
+          setCurrentSearchEngine(res?.currentSearchEngine?.newValue);
+        }
       });
     }
   }, [isFirstRef?.current]);
+
   return (
     <div className="p-[10px] overflow-auto">
       <GridLayout
@@ -58,7 +72,7 @@ export default function Home() {
         width={1200}
       >
         <div key="a" className=" bg-[red]">
-          <Search />
+          <Search currentSearchEngine={currentSearchEngine} />
         </div>
         <div key="b" className=" bg-[orange]">
           <Memorandum />

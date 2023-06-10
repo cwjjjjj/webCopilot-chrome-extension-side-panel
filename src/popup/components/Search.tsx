@@ -1,13 +1,13 @@
 import { css } from "@emotion/react";
-import { HTMLAttributes, useCallback, useState } from "react";
+import { HTMLAttributes, useCallback, useMemo, useState } from "react";
 import baiduIcon from "../assets/baiduIcon.png";
 import googleIcon from "../assets/googleIcon.png";
 import bingIcon from "../assets/bingIcon.png";
-import { Popover } from "antd-mobile";
-import { Action } from "antd-mobile/es/components/popover";
 import Browser from "webextension-polyfill";
 
-export interface SearchProps extends HTMLAttributes<HTMLDivElement> {}
+export interface SearchProps extends HTMLAttributes<HTMLDivElement> {
+  currentSearchEngine: SearchEngine;
+}
 
 export type SearchEngine = Record<string, string>;
 
@@ -17,7 +17,7 @@ export const SEARCH_ENGINE = {
   Bing: "https://www.bing.com/search?q=",
 };
 
-const SearchEngineList = Object.entries(SEARCH_ENGINE).map(
+export const SearchEngineList = Object.entries(SEARCH_ENGINE).map(
   ([searchEngine, url]) => {
     return {
       searchEngine,
@@ -25,12 +25,18 @@ const SearchEngineList = Object.entries(SEARCH_ENGINE).map(
     };
   }
 );
+
 const SearchEngineListLength = SearchEngineList.length;
 
-export default function Search({ ...props }: SearchProps) {
+export default function Search({ currentSearchEngine, ...props }: SearchProps) {
   const [isShowPicker, setIsShowPicker] = useState(false);
   const [currentHoverItemIndex, setCurrentHoverItemIndex] = useState(0);
   const [inputValue, setInputValue] = useState<string>();
+  const currentSearchEngineIndex = useMemo(() => {
+    return SearchEngineList.findIndex(
+      (item) => item.searchEngine === currentSearchEngine.searchEngine
+    );
+  }, []);
 
   const currentSearchIcon = useCallback((searchEngine: string) => {
     if (!searchEngine) {
@@ -52,6 +58,7 @@ export default function Search({ ...props }: SearchProps) {
     }
     if (e.key === "Escape") {
       setIsShowPicker(false);
+      setCurrentHoverItemIndex(currentSearchEngineIndex);
     }
     if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -70,12 +77,19 @@ export default function Search({ ...props }: SearchProps) {
     }
   };
 
-  const handleSearch = (value?: string, searchEngineUrl?: string) => {
+  const setDefaultSearchEngine = () =>
+    Browser.storage.sync.set({
+      currentSearchEngine: SearchEngineList[currentHoverItemIndex],
+    });
+
+  const handleSearch = async (value?: string, searchEngineUrl?: string) => {
+    await setDefaultSearchEngine();
     setInputValue("");
     setIsShowPicker(false);
     if (!inputValue) {
       return;
     }
+    window.open(`${searchEngineUrl}${value}`);
   };
 
   return (
@@ -121,6 +135,8 @@ export default function Search({ ...props }: SearchProps) {
           align-items: center;
           padding-right: 13px;
           margin-top: -5px;
+          height: 44px;
+          width: 44px;
         }
 
         .search-icon-wrapper {
@@ -245,7 +261,7 @@ export default function Search({ ...props }: SearchProps) {
               setIsShowPicker(true);
             }}
           >
-            <img src={googleIcon} />
+            {currentSearchIcon(currentSearchEngine?.searchEngine)}
           </div>
 
           <div className="searchbar-center">
@@ -255,6 +271,10 @@ export default function Search({ ...props }: SearchProps) {
               title="Search"
               placeholder="请输入查询内容"
               onKeyUp={handleKeyUp}
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+              }}
             />
           </div>
 

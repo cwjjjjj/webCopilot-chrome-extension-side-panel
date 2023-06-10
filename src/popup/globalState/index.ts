@@ -3,6 +3,7 @@ import { MemorandumItem } from "../components/Memorandum";
 import { Tabs } from "webextension-polyfill/namespaces/tabs";
 import { getCurrentTab } from "../../utils/getCurrentTab";
 import { WebIconType } from "../components/WebIcon";
+import { SearchEngine, SearchEngineList } from "../components/Search";
 
 export const DEFAULT_PINNED_TABS: WebIconType[] = [
   {
@@ -64,4 +65,9 @@ export const currentTabState = atom<Tabs.Tab | undefined>({
 export const pinnedWebsState = atom<WebIconType[]>({
   key: "PinnedWebsState",
   default: DEFAULT_PINNED_TABS,
+});
+
+export const currentSearchEngineState = atom<SearchEngine>({
+  key: "currentSearchEngineState",
+  default: { searchEngine: "Google" },
 });
