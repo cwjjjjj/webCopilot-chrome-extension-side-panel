@@ -70,6 +70,7 @@ export default function Home() {
           background-color: rgba(0, 0, 0, 0.2);
           border-radius: 10px;
           overflow: hidden;
+          padding: 2px 4px;
         }
       `}
     >

@@ -57,22 +57,22 @@ export default function V2ex(props: V2exProps) {
       <header className="header flex justify-between">
         <img src="https://www.v2ex.com/static/img/v2ex@2x.png" alt="" />
         <section className="flex gap-[10px] font-[600]">
-          <span
+          <a
             className={currentTab === "latest" ? "active" : ""}
             onClick={() => {
               setCurrentTab("latest");
             }}
           >
             最新
-          </span>
-          <span
+          </a>
+          <a
             className={currentTab === "hottest" ? "active" : ""}
             onClick={() => {
               setCurrentTab("hottest");
             }}
           >
             最热
-          </span>
+          </a>
         </section>
       </header>
       {currentTab === "hottest" &&
