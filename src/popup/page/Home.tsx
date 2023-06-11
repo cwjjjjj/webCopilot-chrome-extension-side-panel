@@ -30,7 +30,11 @@ export default function Home() {
   const [layouts, setLayouts] = useRecoilState(layoutState);
 
   const handleLayoutChange = (layouts: Layout[]) => {
-    console.log("layout", layouts);
+    // tofix 第一次进入的时候也会触发 onchange
+    if (isFirstRef?.current) {
+      return;
+    }
+    console.log("@@layout", layouts);
     setLayouts(layouts);
     Browser.storage.sync.set({ layouts });
   };

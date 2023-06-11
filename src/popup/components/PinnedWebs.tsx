@@ -1,8 +1,7 @@
 import { HTMLAttributes } from "react";
-import { getCurrentTab } from "../../utils/getCurrentTab";
-import WebIcon, { WebIconType } from "./WebIcon";
+import WebIcon from "./WebIcon";
 import { css } from "@emotion/react";
-import { DEFAULT_PINNED_TABS, pinnedWebsState } from "../globalState";
+import { pinnedWebsState } from "../globalState";
 import { useRecoilState } from "recoil";
 
 export interface PinnedWebsProps extends HTMLAttributes<HTMLDivElement> {}

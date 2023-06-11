@@ -47,7 +47,7 @@ export const DEFAULT_MEMORANDUM_LIST: MemorandumItem[] = [
   },
 ];
 
-export const DEFAULT_LAYOUT = [
+export const DEFAULT_LAYOUTS = [
   { i: "a", x: 0, y: 0, w: 4, h: 2, minW: 2, minH: 2 },
   { i: "b", x: 0, y: 1, w: 2, h: 6, minW: 2, maxW: 4, minH: 6 },
   { i: "c", x: 0, y: 2, w: 4, h: 10, minH: 6 },

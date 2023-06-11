@@ -5,7 +5,7 @@ import { WebIconType } from "../components/WebIcon";
 import { SearchEngine } from "../components/Search";
 import { Layout } from "react-grid-layout";
 import {
-  DEFAULT_LAYOUT,
+  DEFAULT_LAYOUTS,
   DEFAULT_MEMORANDUM_LIST,
   DEFAULT_PINNED_TABS,
 } from "../constants";
@@ -33,5 +33,5 @@ export const currentSearchEngineState = atom<SearchEngine>({
 
 export const layoutState = atom<Layout[]>({
   key: "layoutState",
-  default: DEFAULT_LAYOUT,
+  default: DEFAULT_LAYOUTS,
 });

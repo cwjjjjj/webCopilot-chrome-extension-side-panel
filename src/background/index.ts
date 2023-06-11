@@ -1,8 +1,9 @@
 import Browser from "webextension-polyfill";
 import {
+  DEFAULT_LAYOUTS,
   DEFAULT_MEMORANDUM_LIST,
   DEFAULT_PINNED_TABS,
-} from "../popup/globalState";
+} from "../popup/constants";
 
 Browser.runtime.onInstalled.addListener(async (detail) => {
   // "install" | "update" | "browser_update"
@@ -15,5 +16,6 @@ Browser.runtime.onInstalled.addListener(async (detail) => {
   if (detail.reason === "install") {
     Browser.storage.sync.set({ pinnedWebs: DEFAULT_PINNED_TABS });
     Browser.storage.sync.set({ memorandumList: DEFAULT_MEMORANDUM_LIST });
+    Browser.storage.sync.set({ layouts: DEFAULT_LAYOUTS });
   }
 });
