@@ -48,9 +48,15 @@ export const DEFAULT_MEMORANDUM_LIST: MemorandumItem[] = [
 ];
 
 export const DEFAULT_LAYOUTS = [
-  { i: "a", x: 0, y: 0, w: 4, h: 2, minW: 2, minH: 2 },
-  { i: "b", x: 0, y: 1, w: 2, h: 6, minW: 2, maxW: 4, minH: 6 },
-  { i: "c", x: 0, y: 2, w: 4, h: 10, minH: 6 },
-  { i: "d", x: 2, y: 1, w: 2, h: 6 },
-  { i: "e", x: 0, y: 0, w: 4, h: 2 },
+  { i: "search", x: 0, y: 0, w: 400, h: 20 },
+  {
+    i: "memorandum",
+    x: 0,
+    y: 100,
+    w: 200,
+    h: 60,
+  },
+  { i: "v2ex", x: 0, y: 200, w: 400, h: 100 },
+  { i: "weibo", x: 200, y: 100, w: 200, h: 60 },
+  { i: "icons", x: 0, y: 0, w: 400, h: 20 },
 ];

@@ -7,16 +7,18 @@ import GridLayout, {
 import V2exHotList from "../components/V2exHotList";
 import WeiboList from "../components/WeiboList";
 import PinnedIcons from "../components/PinnedWebs";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Browser from "webextension-polyfill";
 import { useRecoilState } from "recoil";
 import {
   currentSearchEngineState,
+  isEditingState,
   layoutState,
   memorandumListState,
   pinnedWebsState,
 } from "../globalState";
 import { css } from "@emotion/react";
+import { Button } from "antd-mobile";
 
 export default function Home() {
   const isFirstRef = useRef(true);
@@ -28,6 +30,7 @@ export default function Home() {
     currentSearchEngineState
   );
   const [layouts, setLayouts] = useRecoilState(layoutState);
+  const [isEdit, setIsEdit] = useRecoilState(isEditingState);
 
   const handleLayoutChange = (layouts: Layout[]) => {
     // tofix 第一次进入的时候也会触发 onchange
@@ -84,31 +87,56 @@ export default function Home() {
           border-radius: 10px;
           overflow: hidden;
           padding: 2px 4px;
+          height: 100%;
+          width: 100%;
+          pointer-events: ${isEdit ? "none" : "auto"};
         }
       `}
     >
+      <Button
+        onClick={() => {
+          setIsEdit(!isEdit);
+        }}
+      >
+        {isEdit ? "完成" : "编辑"}
+      </Button>
       <GridLayout
         className="layout"
         layout={layouts}
-        cols={12}
-        rowHeight={30}
-        width={1200}
+        cols={2000}
+        rowHeight={1}
+        width={2000}
         onLayoutChange={handleLayoutChange}
+        isBounded
+        isDraggable={isEdit}
+        isResizable={isEdit}
+        resizeHandles={["s", "w", "e", "n", "sw", "nw", "se", "ne"]}
+        margin={[0, 0]}
       >
-        <div key="a" className=" module">
-          <Search currentSearchEngine={currentSearchEngine} />
+        <div key="search">
+          <div className=" module">
+            <Search currentSearchEngine={currentSearchEngine} />
+          </div>
         </div>
-        <div key="b" className=" module">
-          <Memorandum />
+        <div key="memorandum">
+          <div className=" module">
+            <Memorandum />
+          </div>
         </div>
-        <div key="c" className=" module">
-          <V2exHotList />
+        <div key="v2ex">
+          <div className=" module">
+            <V2exHotList />
+          </div>
         </div>
-        <div key="d" className=" module">
-          <WeiboList />
+        <div key="weibo">
+          <div className=" module">
+            <WeiboList />
+          </div>
         </div>
-        <div key="e" className=" module">
-          <PinnedIcons />
+        <div key="icons">
+          <div className=" module">
+            <PinnedIcons />
+          </div>
         </div>
         {/* <div key="f" className="  h-full w-full overflow-auto">
           <input

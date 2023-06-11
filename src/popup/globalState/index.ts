@@ -35,3 +35,8 @@ export const layoutState = atom<Layout[]>({
   key: "layoutState",
   default: DEFAULT_LAYOUTS,
 });
+
+export const isEditingState = atom<boolean>({
+  key: "isEditingState",
+  default: false,
+});
