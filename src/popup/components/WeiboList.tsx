@@ -71,7 +71,7 @@ export default function WeiboList(props: WeiboListProps) {
 
       <main className="grid gap-[8px]">
         {data?.map((item) => {
-          return <WeiboPost key={item.mid} data={item} />;
+          return <WeiboPost key={JSON.stringify(item)} data={item} />;
         })}
       </main>
     </div>

@@ -20,6 +20,8 @@ import {
 } from "../globalState";
 import { css } from "@emotion/react";
 import { Button, FloatingBubble } from "antd-mobile";
+import layoutSvg from "../assets/layout.svg";
+import saveSvg from "../assets/save.svg";
 
 export default function Home() {
   const isFirstRef = useRef(true);
@@ -74,6 +76,7 @@ export default function Home() {
           setCurrentSearchEngine(res?.currentSearchEngine?.newValue);
         }
         if (res?.layouts) {
+          console.log(res?.layouts?.newValue);
           setLayouts(res?.layouts?.newValue);
         }
         if (res?.buttonPosition) {
@@ -98,13 +101,6 @@ export default function Home() {
         }
       `}
     >
-      <Button
-        onClick={() => {
-          setIsEdit(!isEdit);
-        }}
-      >
-        {isEdit ? "完成" : "编辑"}
-      </Button>
       <GridLayout
         className="layout"
         layout={layouts}
@@ -165,14 +161,38 @@ export default function Home() {
         style={{
           "--initial-position-bottom": "0",
           "--initial-position-right": "0",
+          "--background": "rgba(0,0,0,0.2)",
         }}
         onOffsetChange={(buttonPosition) => {
           setOffset(buttonPosition);
           Browser.storage.sync.set({ buttonPosition: buttonPosition });
         }}
         offset={offset}
+        onClick={() => {
+          setIsEdit(!isEdit);
+        }}
       >
-        123
+        {isEdit ? (
+          <img
+            src={layoutSvg}
+            alt=""
+            css={css`
+              height: 40px;
+              width: 40px;
+              padding: 5px;
+            `}
+          />
+        ) : (
+          <img
+            src={saveSvg}
+            alt=""
+            css={css`
+              height: 40px;
+              width: 40px;
+              padding: 5px;
+            `}
+          />
+        )}
       </FloatingBubble>
     </div>
   );
