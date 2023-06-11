@@ -43,3 +43,15 @@ hr {
     transform: rotate(360deg);
   }
 }
+
+.list-wrapper {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 30px 1fr;
+  overflow: hidden;
+}
+
+.list {
+  overflow-y: auto;
+  height: 100%;
+}

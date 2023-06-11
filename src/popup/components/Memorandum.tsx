@@ -84,20 +84,16 @@ export default function Memorandum({ ...props }: MemorandumProps) {
       css={css`
         height: 100%;
         display: grid;
-        grid-template-rows: 1fr 30px;
-        gap: 10px;
+        grid-template-rows: 20px 1fr 30px;
+        gap: 8px;
         background-color: #ffe2a9;
         border-radius: 10px;
         padding: 4px;
       `}
     >
-      <section
-        css={css`
-          overflow-y: auto;
-          height: 100%;
-        `}
-      >
-        <h4>备忘录</h4>
+      <h4>备忘录</h4>
+
+      <div className="list">
         <CheckList
           multiple
           value={memorandumListValue}
@@ -109,34 +105,32 @@ export default function Memorandum({ ...props }: MemorandumProps) {
             </CheckList.Item>
           ))}
         </CheckList>
-      </section>
+      </div>
 
-      <section>
-        <Input
-          placeholder="新增代办事项"
-          value={newTask}
-          onChange={setNewTask}
-          onBlur={(e) => {
-            handleCreateItem(newTask);
-            setNewTask("");
-          }}
-          onEnterPress={(e) => {
-            handleCreateItem(newTask);
-            setNewTask("");
-          }}
-          css={css`
-            '--color':red ;
-            '--placeholder-color':orange ;
-            background-color: #c68b16;
-            border-radius: 10px;
-            padding: 5px 10px;
-          `}
-          style={{
-            "--color": "black",
-            "--placeholder-color": "rgba(0,0,0,.3)",
-          }}
-        />
-      </section>
+      <Input
+        placeholder="新增代办事项"
+        value={newTask}
+        onChange={setNewTask}
+        onBlur={(e) => {
+          handleCreateItem(newTask);
+          setNewTask("");
+        }}
+        onEnterPress={(e) => {
+          handleCreateItem(newTask);
+          setNewTask("");
+        }}
+        css={css`
+          '--color':red ;
+          '--placeholder-color':orange ;
+          background-color: #c68b16;
+          border-radius: 10px;
+          padding: 5px 10px;
+        `}
+        style={{
+          "--color": "black",
+          "--placeholder-color": "rgba(0,0,0,.3)",
+        }}
+      />
     </div>
   );
 }

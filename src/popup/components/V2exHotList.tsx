@@ -34,11 +34,8 @@ export default function V2ex(props: V2exProps) {
 
   return (
     <div
-      className="grid gap-[10px]"
+      className="list-wrapper"
       css={css`
-        height: 100%;
-        overflow: auto;
-
         .header {
           height: 20px;
 
@@ -75,11 +72,15 @@ export default function V2ex(props: V2exProps) {
           </a>
         </section>
       </header>
-      {currentTab === "hottest" &&
-        hottestList?.map((item) => <V2exPost data={item} key={item.id} />)}
+      <div className="list">
+        {currentTab === "hottest" &&
+          hottestList?.map((item) => <V2exPost data={item} key={item.id} />)}
+      </div>
 
-      {currentTab === "latest" &&
-        latestList?.map((item) => <V2exPost data={item} key={item.id} />)}
+      <div className="list">
+        {currentTab === "latest" &&
+          latestList?.map((item) => <V2exPost data={item} key={item.id} />)}
+      </div>
     </div>
   );
 }

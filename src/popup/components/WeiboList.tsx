@@ -30,15 +30,13 @@ export default function WeiboList(props: WeiboListProps) {
   return (
     <div
       css={css`
-        height: 100%;
-        overflow: auto;
-
         .icon {
           width: 20px;
           height: 20px;
           object-fit: contain;
         }
       `}
+      className="list-wrapper"
       {...props}
     >
       <header className=" grid grid-cols-[20px_1fr_14px_55px] items-center gap-[4px] mb-[10px]">
@@ -69,7 +67,7 @@ export default function WeiboList(props: WeiboListProps) {
         </span>
       </header>
 
-      <main className="grid gap-[8px]">
+      <main className="grid gap-[8px] list">
         {data?.map((item) => {
           return <WeiboPost key={JSON.stringify(item)} data={item} />;
         })}
