@@ -5,6 +5,7 @@ import { WebIconType } from "../components/WebIcon";
 import { SearchEngine } from "../components/Search";
 import { Layout } from "react-grid-layout";
 import {
+  DEFAULT_BUTTON_POSITION,
   DEFAULT_LAYOUTS,
   DEFAULT_MEMORANDUM_LIST,
   DEFAULT_PINNED_TABS,
@@ -39,4 +40,12 @@ export const layoutState = atom<Layout[]>({
 export const isEditingState = atom<boolean>({
   key: "isEditingState",
   default: false,
+});
+
+export const buttonPositionState = atom<{
+  x: number;
+  y: number;
+}>({
+  key: "buttonPositionState",
+  default: DEFAULT_BUTTON_POSITION,
 });

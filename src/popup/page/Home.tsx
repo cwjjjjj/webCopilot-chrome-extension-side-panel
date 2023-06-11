@@ -11,6 +11,7 @@ import { useEffect, useRef } from "react";
 import Browser from "webextension-polyfill";
 import { useRecoilState } from "recoil";
 import {
+  buttonPositionState,
   currentSearchEngineState,
   isEditingState,
   layoutState,
@@ -18,7 +19,7 @@ import {
   pinnedWebsState,
 } from "../globalState";
 import { css } from "@emotion/react";
-import { Button } from "antd-mobile";
+import { Button, FloatingBubble } from "antd-mobile";
 
 export default function Home() {
   const isFirstRef = useRef(true);
@@ -31,13 +32,13 @@ export default function Home() {
   );
   const [layouts, setLayouts] = useRecoilState(layoutState);
   const [isEdit, setIsEdit] = useRecoilState(isEditingState);
+  const [offset, setOffset] = useRecoilState(buttonPositionState);
 
   const handleLayoutChange = (layouts: Layout[]) => {
     // tofix 第一次进入的时候也会触发 onchange
     if (isFirstRef?.current) {
       return;
     }
-    console.log("@@layout", layouts);
     setLayouts(layouts);
     Browser.storage.sync.set({ layouts });
   };
@@ -54,8 +55,10 @@ export default function Home() {
         setCurrentSearchEngine(res.currentSearchEngine);
       });
       Browser.storage.sync.get(["layouts"]).then((res) => {
-        console.log("layouts get", res.layouts);
         setLayouts(res.layouts);
+      });
+      Browser.storage.sync.get(["buttonPosition"]).then((res) => {
+        setOffset(res.buttonPosition);
       });
 
       isFirstRef.current = false;
@@ -71,8 +74,10 @@ export default function Home() {
           setCurrentSearchEngine(res?.currentSearchEngine?.newValue);
         }
         if (res?.layouts) {
-          console.log("layouts change", res.layouts);
           setLayouts(res?.layouts?.newValue);
+        }
+        if (res?.buttonPosition) {
+          setOffset(res?.buttonPosition?.newValue);
         }
       });
     }
@@ -155,6 +160,20 @@ export default function Home() {
           />
         </div> */}
       </GridLayout>
+      <FloatingBubble
+        axis="xy"
+        style={{
+          "--initial-position-bottom": "0",
+          "--initial-position-right": "0",
+        }}
+        onOffsetChange={(buttonPosition) => {
+          setOffset(buttonPosition);
+          Browser.storage.sync.set({ buttonPosition: buttonPosition });
+        }}
+        offset={offset}
+      >
+        123
+      </FloatingBubble>
     </div>
   );
 }
