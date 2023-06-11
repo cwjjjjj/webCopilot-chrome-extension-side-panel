@@ -1,0 +1,81 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # permissions:
+    #   contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+        # with:
+        #   node-version: 18
+
+      - name: Purge
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: purge
+      # - name: Build
+      #   run: yarn build
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r dist-${{ github.ref_name }}.zip dist
+
+      # - name: Rename release file
+      #   run: mv dist.zip dist-${{ github.ref }}.zip
+
+      # - name: Create release
+      #   id: create_release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     files: dist.zip
+
+      # - name: Build
+      #   run: yarn build
+
+      # - name: Zip dist folder for beta
+      #   uses: montudor/action-zip@v1
+      #   with:
+      #     args: zip -qq -r dist-${{ github.ref_name }}-beta.zip dist
+
+      # - name: Rename release file for beta
+      #   run: mv dist-beta.zip dist-${{ github.ref }}-beta.zip
+
+      - name: GH Release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          tag_name: ${{ github.ref }}
+          # tag_name: v1.0.0
+          # release_name: Release v1.0.0
+          files: |
+            dist-${{ github.ref_name }}.zip
+
+      # - name: Create release
+      #   id: create_release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     files: |
+      #       dist-${{ github.ref_name }}.zip
+      #       dist-${{ github.ref_name }}-beta.zip
