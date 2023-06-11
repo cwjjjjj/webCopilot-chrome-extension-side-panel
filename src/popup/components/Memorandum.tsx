@@ -86,6 +86,9 @@ export default function Memorandum({ ...props }: MemorandumProps) {
         display: grid;
         grid-template-rows: 1fr 30px;
         gap: 10px;
+        background-color: #ffe2a9;
+        border-radius: 10px;
+        padding: 4px;
       `}
     >
       <section
@@ -120,6 +123,17 @@ export default function Memorandum({ ...props }: MemorandumProps) {
           onEnterPress={(e) => {
             handleCreateItem(newTask);
             setNewTask("");
+          }}
+          css={css`
+            '--color':red ;
+            '--placeholder-color':orange ;
+            background-color: #c68b16;
+            border-radius: 10px;
+            padding: 5px 10px;
+          `}
+          style={{
+            "--color": "black",
+            "--placeholder-color": "rgba(0,0,0,.3)",
           }}
         />
       </section>

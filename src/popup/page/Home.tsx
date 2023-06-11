@@ -22,6 +22,7 @@ import { css } from "@emotion/react";
 import { Button, FloatingBubble } from "antd-mobile";
 import layoutSvg from "../assets/layout.svg";
 import saveSvg from "../assets/save.svg";
+import bg from "../assets/bg.jpg";
 
 export default function Home() {
   const isFirstRef = useRef(true);
@@ -90,8 +91,13 @@ export default function Home() {
     <div
       className="p-[10px] overflow-auto"
       css={css`
+        background-image: url(${bg});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
         .module {
-          background-color: rgba(0, 0, 0, 0.2);
+          /* background-color: rgba(0, 0, 0, 0.2); */
           border-radius: 10px;
           overflow: hidden;
           padding: 2px 4px;
