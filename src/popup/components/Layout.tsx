@@ -7,7 +7,6 @@ import { useEffect } from "react";
 export default function Layout() {
   const location = useLocation();
   const navigator = useNavigate();
-  console.log("location", location.pathname);
 
   return (
     <div

@@ -42,7 +42,6 @@ export default function Memorandum({ ...props }: MemorandumProps) {
   );
 
   const handleChangeState = (value: string[]) => {
-    console.log("change", value);
     const preMemorandumList = cloneDeep(memorandumList);
     const newMemorandumList = preMemorandumList.map((item) => {
       if (value.includes(item.id)) {
@@ -52,7 +51,6 @@ export default function Memorandum({ ...props }: MemorandumProps) {
       }
       return item;
     });
-    console.log("newMemorandumList", newMemorandumList);
     setMemorandumListWithStorage(newMemorandumList);
   };
 
@@ -77,7 +75,6 @@ export default function Memorandum({ ...props }: MemorandumProps) {
     const newMemorandumList = MemorandumList.filter(
       (item) => item.id !== taskId
     );
-    console.log("new", newMemorandumList);
     setMemorandumList(newMemorandumList);
   };
 

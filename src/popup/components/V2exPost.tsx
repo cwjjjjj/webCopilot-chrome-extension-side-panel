@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, memo } from "react";
 import { V2exPost as V2exPostType } from "../types";
 import { css } from "@emotion/react";
 
@@ -6,8 +6,7 @@ export interface V2exPostProps extends HTMLAttributes<HTMLDivElement> {
   data: V2exPostType;
 }
 
-export default function V2exPost({ data, ...props }: V2exPostProps) {
-  console.log("data", data);
+function V2exPost({ data, ...props }: V2exPostProps) {
   if (!data) {
     return null;
   }
@@ -57,3 +56,5 @@ export default function V2exPost({ data, ...props }: V2exPostProps) {
     </a>
   );
 }
+
+export default memo(V2exPost);

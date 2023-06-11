@@ -1,55 +1,14 @@
 import { atom } from "recoil";
 import { MemorandumItem } from "../components/Memorandum";
 import { Tabs } from "webextension-polyfill/namespaces/tabs";
-import { getCurrentTab } from "../../utils/getCurrentTab";
 import { WebIconType } from "../components/WebIcon";
-import { SearchEngine, SearchEngineList } from "../components/Search";
-
-export const DEFAULT_PINNED_TABS: WebIconType[] = [
-  {
-    url: "https://web.okjike.com/",
-    id: "1",
-    favIconUrl: "https://web.okjike.com/favicon.ico",
-  },
-  {
-    url: "https://www.bing.com/",
-    id: "2",
-    favIconUrl: "https://www.bing.com/favicon.ico",
-  },
-  {
-    url: "https://www.douban.com/",
-    id: "3",
-    favIconUrl: "https://www.douban.com/favicon.ico",
-  },
-  {
-    url: "https://www.zhihu.com/",
-    id: "4",
-    favIconUrl: "https://www.zhihu.com/favicon.ico",
-  },
-  {
-    url: "https://www.bilibili.com",
-    id: "5",
-    favIconUrl: "https://www.bilibili.com/favicon.ico",
-  },
-  {
-    url: "https://www.github.com",
-    id: "6",
-    favIconUrl: "https://www.github.com/favicon.ico",
-  },
-];
-
-export const DEFAULT_MEMORANDUM_LIST: MemorandumItem[] = [
-  {
-    task: "task1",
-    state: "todo",
-    id: "1",
-  },
-  {
-    task: "task2",
-    state: "done",
-    id: "2",
-  },
-];
+import { SearchEngine } from "../components/Search";
+import { Layout } from "react-grid-layout";
+import {
+  DEFAULT_LAYOUT,
+  DEFAULT_MEMORANDUM_LIST,
+  DEFAULT_PINNED_TABS,
+} from "../constants";
 
 export const memorandumListState = atom<MemorandumItem[]>({
   key: "memorandumListState",
@@ -70,4 +29,9 @@ export const pinnedWebsState = atom<WebIconType[]>({
 export const currentSearchEngineState = atom<SearchEngine>({
   key: "currentSearchEngineState",
   default: { searchEngine: "Google" },
+});
+
+export const layoutState = atom<Layout[]>({
+  key: "layoutState",
+  default: DEFAULT_LAYOUT,
 });
