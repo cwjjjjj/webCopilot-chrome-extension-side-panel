@@ -19,7 +19,9 @@ export default defineManifest(async (env) => ({
   },
   name: "webCopilot",
   version: "0.0.4",
-  action: {},
+  action: {
+    // default_popup: "popup.html",
+  },
   content_scripts: [
     {
       js: ["src/content/index.tsx"],
@@ -30,7 +32,7 @@ export default defineManifest(async (env) => ({
     service_worker: "src/background",
   },
   side_panel: {
-    default_path: "index.html",
+    default_path: "sidePanel.html",
   },
   permissions: ["tabs", "storage", "sidePanel"],
   commands: {},

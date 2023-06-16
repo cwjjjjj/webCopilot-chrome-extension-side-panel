@@ -22,7 +22,8 @@ export default defineConfig({
   build: {
     target: ["chrome90", "edge90", "firefox90", "safari15"],
     rollupOptions: {
-      input: ["index.html"],
+      // input: ["popup.html", "sidePanel.html"],
+      input: ["sidePanel.html"],
     },
   },
 });

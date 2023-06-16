@@ -3,7 +3,7 @@ import {
   DEFAULT_LAYOUTS,
   DEFAULT_MEMORANDUM_LIST,
   DEFAULT_PINNED_TABS,
-} from "../popup/constants";
+} from "../sidePanel/constants";
 
 Browser.runtime.onInstalled.addListener(async (detail) => {
   // "install" | "update" | "browser_update"

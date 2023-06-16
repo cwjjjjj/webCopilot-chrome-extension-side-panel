@@ -1,6 +1,6 @@
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import Home from "./page/Home";
 import Layout from "./components/Layout";
+import Home from "./page/Home";
 
 const routes = [
   {
