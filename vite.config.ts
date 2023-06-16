@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { crx } from "@crxjs/vite-plugin";
-import manifest from "./manifest.json";
+import manifest from "./manifest.config";
 
 export default defineConfig({
   plugins: [
@@ -21,5 +21,8 @@ export default defineConfig({
   },
   build: {
     target: ["chrome90", "edge90", "firefox90", "safari15"],
+    rollupOptions: {
+      input: ["index.html"],
+    },
   },
 });

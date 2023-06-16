@@ -11,9 +11,27 @@ const [major, minor, patch, label = "0"] = version
 
 export default defineManifest(async (env) => ({
   manifest_version: 3,
-  name: env.mode === "staging" ? "[INTERNAL] template" : "template",
-  // up to four numbers separated by dots
-  version: `${major}.${minor}.${patch}.${label}`,
-  // semver is OK in "version_name"
-  version_name: version,
+  icons: {
+    "16": "logo.png",
+    "32": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png",
+  },
+  name: "webCopilot",
+  version: "0.0.4",
+  action: {},
+  content_scripts: [
+    {
+      js: ["src/content/index.tsx"],
+      matches: ["<all_urls>"],
+    },
+  ],
+  background: {
+    service_worker: "src/background",
+  },
+  side_panel: {
+    default_path: "index.html",
+  },
+  permissions: ["tabs", "storage", "sidePanel"],
+  commands: {},
 }));
