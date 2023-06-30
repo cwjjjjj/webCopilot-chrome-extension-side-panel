@@ -18,16 +18,11 @@ export default defineManifest(async (env) => ({
     "128": "logo.png",
   },
   name: "webCopilot",
-  version: "0.0.4",
+  version: "1.0.0",
   action: {
     // default_popup: "popup.html",
   },
-  content_scripts: [
-    {
-      js: ["src/content/index.tsx"],
-      matches: ["<all_urls>"],
-    },
-  ],
+  host_permissions: ["https://*.v2ex.com/", "https://weibo.com/*"],
   background: {
     service_worker: "src/background",
   },
