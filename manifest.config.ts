@@ -9,26 +9,31 @@ const [major, minor, patch, label = "0"] = version
   // split into version parts
   .split(/[.-]/);
 
-export default defineManifest(async (env) => ({
-  manifest_version: 3,
-  icons: {
-    "16": "logo.png",
-    "32": "logo.png",
-    "48": "logo.png",
-    "128": "logo.png",
-  },
-  name: "webCopilot",
-  version: "1.0.0",
-  action: {
-    // default_popup: "popup.html",
-  },
-  host_permissions: ["https://*.v2ex.com/", "https://weibo.com/*"],
-  background: {
-    service_worker: "src/background",
-  },
-  side_panel: {
-    default_path: "sidePanel.html",
-  },
-  permissions: ["tabs", "storage", "sidePanel"],
-  commands: {},
-}));
+export default defineManifest(async (env) => {
+  console.log("@@@@@@@@@@@@@@@@env", env, `${major}.${minor}.${patch}`);
+
+  return {
+    manifest_version: 3,
+    icons: {
+      "16": "logo.png",
+      "32": "logo.png",
+      "48": "logo.png",
+      "128": "logo.png",
+    },
+    name: "webCopilot",
+    version:
+      env.mode === "development" ? "999.999.999" : `${major}.${minor}.${patch}`,
+    action: {
+      // default_popup: "popup.html",
+    },
+    host_permissions: ["https://*.v2ex.com/", "https://weibo.com/*"],
+    background: {
+      service_worker: "src/background",
+    },
+    side_panel: {
+      default_path: "sidePanel.html",
+    },
+    permissions: ["tabs", "storage", "sidePanel"],
+    commands: {},
+  };
+});

@@ -59,6 +59,7 @@ export const DEFAULT_LAYOUTS = [
   },
   { i: "weibo", x: 200, y: 180, w: 200, h: 500 },
   { i: "v2ex", x: 0, y: 680, w: 400, h: 600 },
+  { i: "f", x: 0, y: 1000, w: 400, h: 600 },
 ];
 
 export const DEFAULT_BUTTON_POSITION = { x: -24, y: -24 };

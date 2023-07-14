@@ -7,7 +7,7 @@ import GridLayout, {
 import V2exHotList from "../components/V2exHotList";
 import WeiboList from "../components/WeiboList";
 import PinnedIcons from "../components/PinnedWebs";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Browser from "webextension-polyfill";
 import { useRecoilState } from "recoil";
 import {
@@ -29,7 +29,7 @@ export default function Home() {
   const [pinnedWebs, setPinnedWebs] = useRecoilState(pinnedWebsState);
   const [memorandumList, setMemorandumList] =
     useRecoilState(memorandumListState);
-  // const [customUrl, setCustomUrl] = useState<string>("");
+  const [customUrl, setCustomUrl] = useState<string>("");
   const [currentSearchEngine, setCurrentSearchEngine] = useRecoilState(
     currentSearchEngineState
   );
@@ -142,25 +142,40 @@ export default function Home() {
         </div>
         <div key="icons">
           <div className=" module">
-            <PinnedIcons />
+            <input
+              type="text"
+              value={customUrl}
+              onChange={(e) => {
+                setCustomUrl(e.target.value);
+              }}
+            />
+            <iframe
+              src={customUrl}
+              css={css`
+                width: 100%;
+                height: 100%;
+              `}
+            />
           </div>
         </div>
-        {/* <div key="f" className="  h-full w-full overflow-auto">
-          <input
-            type="text"
-            value={customUrl}
-            onChange={(e) => {
-              setCustomUrl(e.target.value);
-            }}
-          />
-          <iframe
-            src={customUrl}
-            css={css`
-              width: 100%;
-              height: 100%;
-            `}
-          />
-        </div> */}
+        <div key="f">
+          <div className=" module">
+            <input
+              type="text"
+              value={customUrl}
+              onChange={(e) => {
+                setCustomUrl(e.target.value);
+              }}
+            />
+            <iframe
+              src={customUrl}
+              css={css`
+                width: 100%;
+                height: 100%;
+              `}
+            />
+          </div>
+        </div>
       </GridLayout>
       <FloatingBubble
         axis="xy"
