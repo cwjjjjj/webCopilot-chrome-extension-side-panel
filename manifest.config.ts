@@ -10,8 +10,6 @@ const [major, minor, patch, label = "0"] = version
   .split(/[.-]/);
 
 export default defineManifest(async (env) => {
-  console.log("@@@@@@@@@@@@@@@@env", env, `${major}.${minor}.${patch}`);
-
   return {
     manifest_version: 3,
     icons: {
@@ -34,6 +32,15 @@ export default defineManifest(async (env) => {
       default_path: "sidePanel.html",
     },
     permissions: ["tabs", "storage", "sidePanel"],
-    commands: {},
+    commands: {
+      "search-focus": {
+        suggested_key: {
+          default: "Alt+S",
+          windows: "Alt+S",
+          mac: "Alt+S",
+        },
+        description: "__MSG_shortCutsSearch__",
+      },
+    },
   };
 });

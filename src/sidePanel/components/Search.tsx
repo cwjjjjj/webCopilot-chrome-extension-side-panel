@@ -1,5 +1,12 @@
 import { css } from "@emotion/react";
-import { HTMLAttributes, useCallback, useMemo, useState } from "react";
+import {
+  HTMLAttributes,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import baiduIcon from "../assets/baiduIcon.png";
 import googleIcon from "../assets/googleIcon.png";
 import bingIcon from "../assets/bingIcon.png";
@@ -37,6 +44,56 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
       (item) => item.searchEngine === currentSearchEngine.searchEngine
     );
   }, []);
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (ref?.current) {
+      console.log("ref", ref);
+      ref.current.focus();
+    }
+    console.log("document", document);
+    document.addEventListener("keydown", (e) => {
+      console.log("e", e);
+    });
+  }, []);
+
+  const ACTIVE_PANEL_SHORTCUTS = "active-naviTab-panel";
+  const SEARCH_FOCUS_SHORTCUTS = "search-focus";
+
+  Browser.commands.getAll().then((res) => {
+    console.log("commands res", res);
+    res.forEach((item) => {
+      if (item.name === ACTIVE_PANEL_SHORTCUTS) {
+        Browser.storage.local.set({ activePanelShortCuts: item });
+      }
+      if (item.name === SEARCH_FOCUS_SHORTCUTS) {
+        Browser.storage.local.set({ searchFocusShortCuts: item });
+      }
+    });
+  });
+
+  Browser.commands.onCommand.addListener(async function (command) {
+    console.log("Command:", command);
+    if (command === ACTIVE_PANEL_SHORTCUTS) {
+      let isSideBarExpanded;
+      await Browser.storage.local.get(["isSideBarExpanded"]).then((res) => {
+        isSideBarExpanded = res.isSideBarExpanded;
+      });
+      Browser.storage.local.set({ isSideBarExpanded: !isSideBarExpanded });
+    }
+    if (command === SEARCH_FOCUS_SHORTCUTS) {
+      ref.current?.focus();
+      let shouldSearchInputFocus;
+      await Browser.storage.local
+        .get(["shouldSearchInputFocus"])
+        .then((res) => {
+          shouldSearchInputFocus = res.shouldSearchInputFocus;
+        });
+      Browser.storage.local.set({
+        shouldSearchInputFocus: !shouldSearchInputFocus,
+      });
+    }
+  });
 
   const currentSearchIcon = useCallback((searchEngine: string) => {
     if (!searchEngine) {
@@ -275,6 +332,7 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
               onChange={(e) => {
                 setInputValue(e.target.value);
               }}
+              ref={ref}
             />
           </div>
 

@@ -1,0 +1,26 @@
+{
+  "appName": {
+    "message": "NaviTab tab manager"
+  },
+  "appDesc": {
+    "message": "tab manager"
+  },
+  "tabs": {
+    "message": "Tabs"
+  },
+  "qeuryTips": {
+    "message": "Search"
+  },
+  "invalidUrl": {
+    "message": "The url is invalid ~"
+  },
+  "pinnedTips": {
+    "message": "Enter the url that needs to be fixed"
+  },
+  "shortCutsPannel": {
+    "message": "show naviTab panel"
+  },
+  "shortCutsSearch": {
+    "message": "search"
+  }
+}
