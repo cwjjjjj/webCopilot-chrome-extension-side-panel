@@ -18,7 +18,8 @@ newVersion=$(cat package.json | grep version | cut -d '"' -f 4)
 # sed -i '' "s/\"version\": \".*\"/\"version\": \"$newVersion\"/g" ./manifest.json
 
 # Commit changes
-git add package.json ./manifest.json
+# git add package.json ./manifest.json
+git add package.json
 git commit -m "Bump version to v$newVersion"
 
 # Add tag with new version to git
