@@ -15,7 +15,7 @@ npm version --no-git-tag-version $newVersion
 newVersion=$(cat package.json | grep version | cut -d '"' -f 4)
 
 # Set new version to 'version' property in manifest.json
-sed -i '' "s/\"version\": \".*\"/\"version\": \"$newVersion\"/g" ./manifest.json
+# sed -i '' "s/\"version\": \".*\"/\"version\": \"$newVersion\"/g" ./manifest.json
 
 # Commit changes
 git add package.json ./manifest.json
