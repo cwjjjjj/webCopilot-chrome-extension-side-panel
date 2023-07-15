@@ -24,6 +24,7 @@ export default defineManifest(async (env) => {
       env.mode === "development" ? "999.999.999" : `${major}.${minor}.${patch}`,
     action: {
       // default_popup: "popup.html",
+      default_title: "Click to open sidebar",
     },
     host_permissions: ["https://*.v2ex.com/", "https://weibo.com/*"],
     background: {
@@ -41,6 +42,12 @@ export default defineManifest(async (env) => {
           mac: "Alt+S",
         },
         description: "__MSG_shortCutsSearch__",
+      },
+      _execute_action: {
+        suggested_key: {
+          default: "Alt+X",
+          mac: "Alt+X",
+        },
       },
     },
   };

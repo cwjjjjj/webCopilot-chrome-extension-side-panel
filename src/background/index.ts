@@ -1,9 +1,25 @@
+// ts 不要检查这个文件
+// @ts-nocheck
+
 import Browser from "webextension-polyfill";
 import {
   DEFAULT_LAYOUTS,
   DEFAULT_MEMORANDUM_LIST,
   DEFAULT_PINNED_TABS,
 } from "../sidePanel/constants";
+
+if (chrome.sidePanel) {
+  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+} else {
+  chrome.action.onClicked.addListener(() => {
+    chrome.notifications.create({
+      type: "basic",
+      title: "Unsupported",
+      iconUrl: chrome.runtime.getURL("logo.png"),
+      message: "Please upgrade your Chrome browser to version 114+",
+    });
+  });
+}
 
 Browser.runtime.onInstalled.addListener(async (detail) => {
   // "install" | "update" | "browser_update"
