@@ -10,10 +10,9 @@ const [major, minor, patch, label = "0"] = version
   .split(/[.-]/);
 
 export default defineManifest(async (env) => {
-  console.log("@@@@@@@@@@@@@@@@env", env, `${major}.${minor}.${patch}`);
-
   return {
     manifest_version: 3,
+    default_locale: "en",
     icons: {
       "16": "logo.png",
       "32": "logo.png",
@@ -25,6 +24,7 @@ export default defineManifest(async (env) => {
       env.mode === "development" ? "999.999.999" : `${major}.${minor}.${patch}`,
     action: {
       // default_popup: "popup.html",
+      default_title: "Click to open sidebar",
     },
     host_permissions: ["https://*.v2ex.com/", "https://weibo.com/*"],
     background: {
@@ -34,6 +34,21 @@ export default defineManifest(async (env) => {
       default_path: "sidePanel.html",
     },
     permissions: ["tabs", "storage", "sidePanel"],
-    commands: {},
+    commands: {
+      "search-focus": {
+        suggested_key: {
+          default: "Alt+S",
+          windows: "Alt+S",
+          mac: "Alt+S",
+        },
+        description: "__MSG_shortCutsSearch__",
+      },
+      _execute_action: {
+        suggested_key: {
+          default: "Alt+X",
+          mac: "Alt+X",
+        },
+      },
+    },
   };
 });
