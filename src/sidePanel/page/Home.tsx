@@ -142,23 +142,10 @@ export default function Home() {
         </div>
         <div key="icons">
           <div className=" module">
-            <input
-              type="text"
-              value={customUrl}
-              onChange={(e) => {
-                setCustomUrl(e.target.value);
-              }}
-            />
-            <iframe
-              src={customUrl}
-              css={css`
-                width: 100%;
-                height: 100%;
-              `}
-            />
+            <PinnedIcons />
           </div>
         </div>
-        <div key="f">
+        <div key="iframe" className="  h-full w-full overflow-auto">
           <div className=" module">
             <input
               type="text"
