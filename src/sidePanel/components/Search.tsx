@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import {
   HTMLAttributes,
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -11,12 +12,16 @@ import baiduIcon from "../assets/baiduIcon.png";
 import googleIcon from "../assets/googleIcon.png";
 import bingIcon from "../assets/bingIcon.png";
 import Browser from "webextension-polyfill";
+import { useRecoilState } from "recoil";
+import { searchFocusShortCutState } from "../globalState";
 
 export interface SearchProps extends HTMLAttributes<HTMLDivElement> {
   currentSearchEngine: SearchEngine;
 }
 
 export type SearchEngine = Record<string, string>;
+
+export const SEARCH_FOCUS_SHORTCUTS = "search-focus";
 
 export const SEARCH_ENGINE = {
   Google: "https://www.google.com/search?q=",
@@ -35,7 +40,7 @@ export const SearchEngineList = Object.entries(SEARCH_ENGINE).map(
 
 const SearchEngineListLength = SearchEngineList.length;
 
-export default function Search({ currentSearchEngine, ...props }: SearchProps) {
+function Search({ currentSearchEngine, ...props }: SearchProps) {
   const [isShowPicker, setIsShowPicker] = useState(false);
   const [currentHoverItemIndex, setCurrentHoverItemIndex] = useState(0);
   const [inputValue, setInputValue] = useState<string>();
@@ -45,6 +50,7 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
     );
   }, []);
   const ref = useRef<HTMLInputElement>(null);
+  const [shortcut, setShortcut] = useRecoilState(searchFocusShortCutState);
 
   useEffect(() => {
     if (ref?.current) {
@@ -57,43 +63,39 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
     });
   }, []);
 
-  const ACTIVE_PANEL_SHORTCUTS = "active-naviTab-panel";
-  const SEARCH_FOCUS_SHORTCUTS = "search-focus";
-
-  Browser.commands.getAll().then((res) => {
-    console.log("commands res", res);
-    res.forEach((item) => {
-      if (item.name === ACTIVE_PANEL_SHORTCUTS) {
-        Browser.storage.local.set({ activePanelShortCuts: item });
-      }
-      if (item.name === SEARCH_FOCUS_SHORTCUTS) {
-        Browser.storage.local.set({ searchFocusShortCuts: item });
-      }
+  useEffect(() => {
+    Browser.commands.getAll().then((res) => {
+      console.log("commands res", res);
+      res.forEach((item) => {
+        if (item.name === SEARCH_FOCUS_SHORTCUTS) {
+          Browser.storage.local.set({ searchFocusShortCuts: item });
+          setShortcut(item.shortcut ?? "");
+        }
+      });
     });
-  });
 
-  Browser.commands.onCommand.addListener(async function (command) {
-    console.log("Command:", command);
-    if (command === ACTIVE_PANEL_SHORTCUTS) {
-      let isSideBarExpanded;
-      await Browser.storage.local.get(["isSideBarExpanded"]).then((res) => {
-        isSideBarExpanded = res.isSideBarExpanded;
-      });
-      Browser.storage.local.set({ isSideBarExpanded: !isSideBarExpanded });
-    }
-    if (command === SEARCH_FOCUS_SHORTCUTS) {
-      ref.current?.focus();
-      let shouldSearchInputFocus;
-      await Browser.storage.local
-        .get(["shouldSearchInputFocus"])
-        .then((res) => {
-          shouldSearchInputFocus = res.shouldSearchInputFocus;
+    const commandListener = async (command: string) => {
+      if (command === SEARCH_FOCUS_SHORTCUTS) {
+        console.log("Command:", command);
+        ref.current?.focus();
+        let shouldSearchInputFocus;
+        await Browser.storage.local
+          .get(["shouldSearchInputFocus"])
+          .then((res) => {
+            shouldSearchInputFocus = res.shouldSearchInputFocus;
+          });
+        Browser.storage.local.set({
+          shouldSearchInputFocus: !shouldSearchInputFocus,
         });
-      Browser.storage.local.set({
-        shouldSearchInputFocus: !shouldSearchInputFocus,
-      });
-    }
-  });
+      }
+    };
+
+    Browser.commands.onCommand.addListener(commandListener);
+
+    return () => {
+      Browser.commands.onCommand.removeListener(commandListener);
+    };
+  }, []);
 
   const currentSearchIcon = useCallback((searchEngine: string) => {
     if (!searchEngine) {
@@ -165,7 +167,6 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
           font-family: arial, sans-serif;
           color: #202124;
           display: flex;
-          height: 44px;
           background: white;
           border: 1px solid #dfe1e5;
           box-shadow: none;
@@ -181,7 +182,7 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
         .searchbar-wrapper {
           flex: 1;
           display: flex;
-          padding: 5px 8px 0 14px;
+          padding: 5px 10px;
         }
 
         .searchbar-left {
@@ -191,8 +192,7 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
           display: flex;
           align-items: center;
           padding-right: 13px;
-          margin-top: -5px;
-          height: 44px;
+          height: 100%;
           width: 44px;
         }
 
@@ -223,14 +223,6 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
           flex-wrap: wrap;
         }
 
-        .searchbar-input-spacer {
-          color: transparent;
-          flex: 100%;
-          white-space: pre;
-          height: 34px;
-          font-size: 16px;
-        }
-
         .searchbar-input {
           background-color: transparent;
           border: none;
@@ -241,15 +233,13 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
           outline: none;
           display: flex;
           flex: 100%;
-          margin-top: -37px;
-          height: 34px;
           font-size: 16px;
+          height: 100%;
         }
 
         .searchbar-right {
           display: flex;
           flex: 0 0 auto;
-          margin-top: -5px;
           align-items: stretch;
           flex-direction: row;
         }
@@ -326,7 +316,7 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
             <input
               className="searchbar-input"
               title="Search"
-              placeholder="请输入查询内容"
+              placeholder={`search  ${shortcut}`}
               onKeyUp={handleKeyUp}
               value={inputValue}
               onChange={(e) => {
@@ -350,3 +340,5 @@ export default function Search({ currentSearchEngine, ...props }: SearchProps) {
     </div>
   );
 }
+
+export default memo(Search);

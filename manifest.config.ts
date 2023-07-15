@@ -12,6 +12,7 @@ const [major, minor, patch, label = "0"] = version
 export default defineManifest(async (env) => {
   return {
     manifest_version: 3,
+    default_locale: "en",
     icons: {
       "16": "logo.png",
       "32": "logo.png",

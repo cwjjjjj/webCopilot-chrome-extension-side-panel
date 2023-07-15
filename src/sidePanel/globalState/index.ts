@@ -49,3 +49,8 @@ export const buttonPositionState = atom<{
   key: "buttonPositionState",
   default: DEFAULT_BUTTON_POSITION,
 });
+
+export const searchFocusShortCutState = atom<string>({
+  key: "searchFocusState",
+  default: "",
+});
