@@ -49,9 +49,11 @@ function Search({ currentSearchEngine, ...props }: SearchProps) {
       (item) => item.searchEngine === currentSearchEngine.searchEngine
     );
   }, []);
-  const ref = useRef<HTMLInputElement>(null);
   const [shortcut, setShortcut] = useRecoilState(searchFocusShortCutState);
+  const ref = useRef<HTMLInputElement>(null);
 
+  //  ------------------tofix------------------
+  // 在 sidepanel 外部唤醒似乎无法使用代码触发 input focus
   useEffect(() => {
     if (ref?.current) {
       console.log("ref", ref);
@@ -96,6 +98,7 @@ function Search({ currentSearchEngine, ...props }: SearchProps) {
       Browser.commands.onCommand.removeListener(commandListener);
     };
   }, []);
+  //  ------------------tofix------------------
 
   const currentSearchIcon = useCallback((searchEngine: string) => {
     if (!searchEngine) {
