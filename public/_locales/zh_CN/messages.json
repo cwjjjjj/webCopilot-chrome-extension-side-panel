@@ -1,25 +1,4 @@
 {
-  "appName": {
-    "message": "NaviTab-侧边栏树状Tab管理"
-  },
-  "appDesc": {
-    "message": "标签管理"
-  },
-  "tabs": {
-    "message": "标签页"
-  },
-  "qeuryTips": {
-    "message": "请输入需要查询的内容"
-  },
-  "invalidUrl": {
-    "message": "输入的不是正确地址~"
-  },
-  "pinnedTips": {
-    "message": "请输入需要固定的 url"
-  },
-  "shortCutsPannel": {
-    "message": "快速呼出侧边栏"
-  },
   "shortCutsSearch": {
     "message": "搜索"
   }
