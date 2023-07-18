@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "dev:prod": "vite --mode production",
-    "build": "tsc && vite build  --mode development",
-    "build:prod": "tsc && vite build --mode production",
+    "build:beta": "tsc && vite build  --mode development",
+    "build": "tsc && vite build --mode production",
     "preview": "vite preview",
     "cz": "git add . && git cz",
     "czp": "yarn cz && git push -u origin HEAD",
